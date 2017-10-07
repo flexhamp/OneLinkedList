@@ -19,6 +19,11 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public boolean contains(Object o) {
+        for (Object find: this){
+            if(o.equals(find)) {
+                return true;
+            }
+        }
         return false;
     }
 

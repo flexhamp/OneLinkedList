@@ -85,8 +85,6 @@ public class OneLinkedListTest {
         for (int i = 0; i < list.size(); i++) {
             Assert.assertEquals(list1.get(i), list.get(i));
         }
-
-        Assert.assertEquals(list1.size(), list.size());
     }
 
     @Test
@@ -139,7 +137,47 @@ public class OneLinkedListTest {
         for (Integer integer: list) {
             System.out.println(integer);
         }
+    }
 
+    @Test
+    public void testRemoveObject() throws Exception {
+        List<String> list = new OneLinkedList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        list.add("e");
+        list.add("f");
 
+        Assert.assertEquals(6, list.size());
+
+        Assert.assertTrue(list.remove("d"));
+
+        Assert.assertEquals("e", list.get(3));
+
+        Assert.assertTrue(!list.remove("h"));
+
+        Assert.assertEquals(5, list.size());
+    }
+
+    @Test
+    public void testRemoveIndex() throws Exception {
+        List<String> list = new OneLinkedList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        list.add("e");
+        list.add("f");
+
+        Assert.assertEquals(6, list.size());
+
+        Assert.assertEquals("d", list.remove(3));
+
+        Assert.assertEquals("e", list.get(3));
+
+        Assert.assertEquals(5, list.size());
+
+        //list.remove(8);
     }
 }

@@ -19,8 +19,8 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public boolean contains(Object o) {
-        for (Object find: this){
-            if(o.equals(find)) {
+        for (T find : this) {
+            if (o.equals(find)) {
                 return true;
             }
         }
@@ -79,6 +79,17 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public boolean remove(Object o) {
+        Box<T> findBox = head;
+        Box<T> tmpBox = new Box<>(null, null);
+        for (int i = 0; i < this.size(); i++) {
+            if (o.equals(findBox.data)) {
+                tmpBox.next = findBox.next;
+                size--;
+                return true;
+            }
+            tmpBox = findBox;
+            findBox = findBox.next;
+        }
         return false;
     }
 
@@ -185,7 +196,14 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public T remove(int index) {
-        return null;
+        Box<T> box = head;
+        for (int i = 0; i < index - 1; i++) {
+            box = box.next;
+        }
+        Box<T> tmpBox = box.next;
+        box.next = box.next.next;
+        size--;
+        return tmpBox.data;
     }
 
     public int indexOf(Object o) {

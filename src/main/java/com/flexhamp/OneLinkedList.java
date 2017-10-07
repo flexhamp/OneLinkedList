@@ -1,3 +1,5 @@
+package com.flexhamp;
+
 import java.util.*;
 
 /**
@@ -5,13 +7,15 @@ import java.util.*;
  */
 public class OneLinkedList<T> implements List<T> {
     private int size;
+    private Box<T> head;
+    private Box<T> tail;
 
     public int size() {
         return size;
     }
 
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     public boolean contains(Object o) {
@@ -19,7 +23,31 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public Iterator<T> iterator() {
-        return null;
+        return new Iterator() {
+            private Box<T> current = null;
+            public boolean hasNext() {
+                if (current == null) {
+                    return head != null;
+                } else {
+                    return current.next != null;
+                }
+            }
+
+            public T next() {
+                if(!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                if (current == null) {
+                    return (current = head).data;
+                } else {
+                    return (current = current.next).data;
+                }
+            }
+
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
     }
 
     public Object[] toArray() {
@@ -31,8 +59,17 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public boolean add(T t) {
+        Box<T> tBox = new Box<T>(null, t);
+        if (head == null || tail == null) {
+            if (head != tail) {
+                throw new IllegalStateException();
+            }
+            head = tail = tBox;
+        } else {
+            tail = tail.next = tBox;
+        }
         size++;
-        return false;
+        return true;
     }
 
     public boolean remove(Object o) {
@@ -106,6 +143,14 @@ public class OneLinkedList<T> implements List<T> {
         public Box(Box<T> next, T data) {
             this.next = next;
             this.data = data;
+        }
+
+        @Override
+        public String toString() {
+            return "Box{" +
+                    "next=" + next +
+                    ", data=" + data +
+                    '}';
         }
     }
 }

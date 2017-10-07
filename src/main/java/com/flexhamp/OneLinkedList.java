@@ -25,6 +25,7 @@ public class OneLinkedList<T> implements List<T> {
     public Iterator<T> iterator() {
         return new Iterator() {
             private Box<T> current = null;
+
             public boolean hasNext() {
                 if (current == null) {
                     return head != null;
@@ -34,7 +35,7 @@ public class OneLinkedList<T> implements List<T> {
             }
 
             public T next() {
-                if(!hasNext()) {
+                if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 if (current == null) {
@@ -101,7 +102,14 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public T get(int index) {
-        return null;
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        Box<T> box = head;
+        for (int i = 0; i < index; i++) {
+            box = box.next;
+        }
+        return box.data;
     }
 
     public T set(int index, T element) {

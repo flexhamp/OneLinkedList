@@ -31,4 +31,15 @@ public class OneLinkedListTest {
         Assert.assertTrue(!iterator.hasNext());
         iterator.next();
     }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testGet() throws Exception {
+        List<Integer> list = new OneLinkedList<>();
+        for (int i = 0; i < 10; i++) {
+            list.add(i);
+        }
+        Assert.assertEquals(0, list.get(0).intValue());
+        Assert.assertEquals(0, list.get(9).intValue());
+        Assert.assertEquals(9, list.get(10).intValue());
+    }
 }

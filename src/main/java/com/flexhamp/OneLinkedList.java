@@ -82,7 +82,13 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public boolean addAll(Collection<? extends T> c) {
-        return false;
+        if (c.size() == 0) {
+            return false;
+        }
+        for (T t : c) {
+            this.add(t);
+        }
+        return true;
     }
 
     public boolean addAll(int index, Collection<? extends T> c) {

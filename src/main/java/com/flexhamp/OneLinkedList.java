@@ -87,12 +87,48 @@ public class OneLinkedList<T> implements List<T> {
         }
         for (T t : c) {
             this.add(t);
+            size++;
         }
         return true;
     }
 
     public boolean addAll(int index, Collection<? extends T> c) {
-        return false;
+        if (index < 0 || index > this.size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (c.size() == 0) {
+            return false;
+        }
+        Box<T> oldHead = head;
+        Box<T> boxElement;
+
+        if (index != 0) {
+            Box<T> box = head;
+            for (int i = 0; i < index - 1; i++) {
+                box = box.next;
+            }
+            oldHead = box.next;
+            Iterator<? extends T> iterator = c.iterator();
+            box.next = boxElement = new Box<>(null, iterator.next());
+
+            while (iterator.hasNext()) {
+                boxElement.next = new Box<>(null, iterator.next());
+                boxElement = boxElement.next;
+                size++;
+            }
+            boxElement.next = oldHead;
+        } else {
+            Iterator<? extends T> iterator = c.iterator();
+            boxElement = new Box<>(null, iterator.next());
+            head = boxElement;
+            while (iterator.hasNext()) {
+                boxElement.next = new Box<>(null, iterator.next());
+                boxElement = boxElement.next;
+                size++;
+            }
+            boxElement.next = oldHead;
+        }
+        return true;
     }
 
     public boolean removeAll(Collection<?> c) {
@@ -130,7 +166,7 @@ public class OneLinkedList<T> implements List<T> {
         }
         if (index != 0) {
             Box<T> box = head;
-            for (int i = 0; i < index-1; i++) {
+            for (int i = 0; i < index - 1; i++) {
                 box = box.next;
             }
             boxElement.next = box.next.next;

@@ -67,6 +67,8 @@ public class OneLinkedListTest {
         for (int i = 0; i < list.size(); i++) {
             Assert.assertEquals(list1.get(i), list.get(list.size() - i - 1));
         }
+
+        Assert.assertEquals(list1.size(), list.size());
     }
 
     @Test
@@ -83,6 +85,8 @@ public class OneLinkedListTest {
         for (int i = 0; i < list.size(); i++) {
             Assert.assertEquals(list1.get(i), list.get(i));
         }
+
+        Assert.assertEquals(list1.size(), list.size());
     }
 
     @Test
@@ -118,5 +122,24 @@ public class OneLinkedListTest {
         list.add(-1, 94);
     }
 
+    @Test
+    public void testInsetAll() throws Exception {
+        List<Integer> list = new OneLinkedList<>();
+        for (int i = 0; i < 5; i++) {
+            list.add(i);
+        }
 
+        List<Integer> list1 = new OneLinkedList<>();
+        for (int i = 100; i < 200; i++) {
+            list1.add(i);
+        }
+
+        list.addAll(3, list1);
+
+        for (Integer integer: list) {
+            System.out.println(integer);
+        }
+
+
+    }
 }

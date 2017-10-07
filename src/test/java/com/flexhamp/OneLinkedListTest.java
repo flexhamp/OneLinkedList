@@ -3,6 +3,7 @@ package com.flexhamp;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -41,5 +42,28 @@ public class OneLinkedListTest {
         Assert.assertEquals(0, list.get(0).intValue());
         Assert.assertEquals(0, list.get(9).intValue());
         Assert.assertEquals(9, list.get(10).intValue());
+    }
+
+    @Test
+    public void testReverse() throws Exception {
+        OneLinkedList<String> list = new OneLinkedList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        list.add("f");
+
+        OneLinkedList<String> list1 = new OneLinkedList<>();
+        list1.add("a");
+        list1.add("b");
+        list1.add("c");
+        list1.add("d");
+        list1.add("f");
+
+        list.reverse();
+
+        for(int i=0; i<list.size(); i++) {
+            Assert.assertEquals(list1.get(i), list.get(list.size()-i-1));
+        }
     }
 }

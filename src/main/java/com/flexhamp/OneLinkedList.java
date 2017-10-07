@@ -144,6 +144,22 @@ public class OneLinkedList<T> implements List<T> {
         return null;
     }
 
+    private void swap(Box<T> first, Box<T> second) {
+        if (first == null) {
+            tail = second;
+        }
+        if (second.next != null) {
+            swap(second, second.next);
+        } else {
+            head = second;
+        }
+        second.next = first;
+    }
+
+    public void reverse() {
+        swap(null, head);
+    }
+
     private static class Box<T> {
         Box<T> next;
         T data;

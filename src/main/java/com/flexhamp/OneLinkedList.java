@@ -104,7 +104,8 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public void clear() {
-
+        head = tail = null;
+        size = 0;
     }
 
     public T get(int index) {
@@ -123,7 +124,23 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public void add(int index, T element) {
-
+        Box<T> boxElement = new Box<>(null, element);
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (index != 0) {
+            Box<T> box = head;
+            for (int i = 0; i < index-1; i++) {
+                box = box.next;
+            }
+            boxElement.next = box.next.next;
+            box.next = boxElement;
+            size++;
+        } else {
+            boxElement.next = head;
+            head = boxElement;
+            size++;
+        }
     }
 
     public T remove(int index) {

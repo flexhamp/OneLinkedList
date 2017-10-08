@@ -60,8 +60,13 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public Object[] toArray() {
-        throw new UnsupportedOperationException();
-        //return new Object[0];
+        Object[] objects = new Object[size];
+        int i = 0;
+
+        for (T t: this) {
+            objects[i++] = t;
+        }
+        return objects;
     }
 
     public <K> K[] toArray(K[] a) {

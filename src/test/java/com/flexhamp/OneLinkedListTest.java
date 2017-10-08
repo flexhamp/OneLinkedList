@@ -240,4 +240,19 @@ public class OneLinkedListTest {
 
         Assert.assertEquals(5, list.lastIndexOf("a"));
     }
+
+    @Test
+    public void testToArray() throws Exception {
+        List list = new OneLinkedList();
+
+        for (int i = 0; i < 50; i++) {
+            list.add(i);
+        }
+
+        Object[] array;
+
+        array = list.toArray();
+
+        Assert.assertEquals(50, array.length);
+    }
 }

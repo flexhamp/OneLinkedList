@@ -3,8 +3,11 @@ package com.flexhamp;
 import java.util.*;
 
 /**
- * Created by Admin on 06.10.2017.
+ * @author  Kuzmenko Nikita
+ * @param <T> the type of elements held in this collection
  */
+
+
 public class OneLinkedList<T> implements List<T> {
     private int size;
     private Box<T> head;
@@ -127,6 +130,7 @@ public class OneLinkedList<T> implements List<T> {
             oldHead = box.next;
             Iterator<? extends T> iterator = c.iterator();
             box.next = boxElement = new Box<>(null, iterator.next());
+            size++;
 
             while (iterator.hasNext()) {
                 boxElement.next = new Box<>(null, iterator.next());
@@ -137,6 +141,7 @@ public class OneLinkedList<T> implements List<T> {
         } else {
             Iterator<? extends T> iterator = c.iterator();
             boxElement = new Box<>(null, iterator.next());
+            size++;
             head = boxElement;
             while (iterator.hasNext()) {
                 boxElement.next = new Box<>(null, iterator.next());
@@ -218,11 +223,26 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public int indexOf(Object o) {
-        return 0;
+        int index = 0;
+        for (T find : this) {
+            if (o.equals(find)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
     }
 
     public int lastIndexOf(Object o) {
-        throw new UnsupportedOperationException();
+        int index = 0;
+        int indexLast = -1;
+        for (T find : this) {
+            if (o.equals(find)) {
+                indexLast = index;
+            }
+            index++;
+        }
+        return indexLast;
     }
 
     public ListIterator<T> listIterator() {
@@ -230,7 +250,7 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public ListIterator<T> listIterator(int index) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public List<T> subList(int fromIndex, int toIndex) {

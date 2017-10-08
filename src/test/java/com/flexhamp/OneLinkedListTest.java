@@ -1,6 +1,8 @@
 package com.flexhamp;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
@@ -13,21 +15,34 @@ public class OneLinkedListTest {
     @Test
     public void testAdd() throws Exception {
         List<String> list = new OneLinkedList<>();
-        list.add("Hello");
+
+        Assert.assertEquals(0, list.size());
+
+        Assert.assertTrue(list.add("Hello"));
+
         list.add("World");
+
         Assert.assertEquals(2, list.size());
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testIterator() throws Exception {
+
         List<String> list = new OneLinkedList<>();
-        List list1  = new ArrayList();
+
         Iterator<String> iterator = list.iterator();
+
         Assert.assertTrue(!iterator.hasNext());
+
         list.add("Hello");
+
         Assert.assertTrue(iterator.hasNext());
+
         Assert.assertEquals("Hello", iterator.next());
+
         Assert.assertTrue(!iterator.hasNext());
+
+        //Ожидаем NoSuchElementException
         iterator.next();
     }
 
@@ -78,19 +93,27 @@ public class OneLinkedListTest {
             list.add(i);
         }
 
+        Assert.assertEquals(100, list.size());
+        Assert.assertEquals(0, list1.size());
+
         Assert.assertTrue(list1.addAll(list));
+
+        Assert.assertEquals(100, list1.size());
 
         for (int i = 0; i < list.size(); i++) {
             Assert.assertEquals(list1.get(i), list.get(i));
         }
     }
 
-    @Test
+    @Test(expected = IndexOutOfBoundsException.class)
     public void testClear() throws Exception {
         List<Integer> list = new OneLinkedList<>();
         for (int i = 0; i < 100; i++) {
             list.add(i);
         }
+
+        Assert.assertEquals(0, list.get(0).intValue());
+
         Assert.assertEquals(100, list.size());
 
         list.clear();
@@ -98,6 +121,8 @@ public class OneLinkedListTest {
         Assert.assertEquals(0, list.size());
 
         Assert.assertTrue(list.isEmpty());
+
+        list.get(0);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
@@ -125,12 +150,24 @@ public class OneLinkedListTest {
             list.add(i);
         }
 
+        Assert.assertEquals(5, list.size());
+
         List<Integer> list1 = new OneLinkedList<>();
-        for (int i = 100; i < 200; i++) {
-            list1.add(i);
+        for (int i = 0; i < 100; i++) {
+            list1.add(100 + i);
         }
 
+        Assert.assertEquals(100, list1.size());
+
         list.addAll(3, list1);
+
+        System.out.println(list.size());
+
+        Assert.assertEquals(105, list.size());
+
+        Assert.assertEquals(2, list.get(2).intValue());
+
+        Assert.assertEquals(100, list.get(3).intValue());
     }
 
     @Test
@@ -186,5 +223,21 @@ public class OneLinkedListTest {
 
         Assert.assertEquals("b", list.set(1, "g"));
         Assert.assertEquals("g", list.get(1));
+    }
+
+    @Test
+    public void testIndexOf() throws Exception {
+        List<String> list = new OneLinkedList<>();
+        list.add("a");
+        list.add("b");
+        list.add("a");
+        list.add("d");
+        list.add("e");
+        list.add("a");
+        list.add("f");
+
+        Assert.assertEquals(1, list.indexOf("b"));
+
+        Assert.assertEquals(5, list.lastIndexOf("a"));
     }
 }

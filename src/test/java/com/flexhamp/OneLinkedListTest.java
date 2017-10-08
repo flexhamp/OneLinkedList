@@ -3,10 +3,7 @@ package com.flexhamp;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * Created by Admin on 07.10.2017.
@@ -24,6 +21,7 @@ public class OneLinkedListTest {
     @Test(expected = NoSuchElementException.class)
     public void testIterator() throws Exception {
         List<String> list = new OneLinkedList<>();
+        List list1  = new ArrayList();
         Iterator<String> iterator = list.iterator();
         Assert.assertTrue(!iterator.hasNext());
         list.add("Hello");
@@ -133,10 +131,6 @@ public class OneLinkedListTest {
         }
 
         list.addAll(3, list1);
-
-        for (Integer integer: list) {
-            System.out.println(integer);
-        }
     }
 
     @Test
@@ -179,5 +173,18 @@ public class OneLinkedListTest {
         Assert.assertEquals(5, list.size());
 
         //list.remove(8);
+    }
+
+    @Test
+    public void testSet() throws Exception {
+        List<String> list = new OneLinkedList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        list.add("f");
+
+        Assert.assertEquals("b", list.set(1, "g"));
+        Assert.assertEquals("g", list.get(1));
     }
 }

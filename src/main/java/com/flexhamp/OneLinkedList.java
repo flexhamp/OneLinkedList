@@ -57,11 +57,12 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public Object[] toArray() {
-        return new Object[0];
+        throw new UnsupportedOperationException();
+        //return new Object[0];
     }
 
     public <K> K[] toArray(K[] a) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public boolean add(T t) {
@@ -94,7 +95,7 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public boolean containsAll(Collection<?> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     public boolean addAll(Collection<? extends T> c) {
@@ -148,11 +149,11 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public boolean removeAll(Collection<?> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     public boolean retainAll(Collection<?> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     public void clear() {
@@ -172,7 +173,17 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public T set(int index, T element) {
-        return null;
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        Box<T> box = head;
+        Box<T> tmpBox = new Box<>(null, null);
+        for (int i = 0; i < index; i++) {
+            box = box.next;
+        }
+        tmpBox.data = box.data;
+        box.data = element;
+        return tmpBox.data;
     }
 
     public void add(int index, T element) {
@@ -211,11 +222,11 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public int lastIndexOf(Object o) {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     public ListIterator<T> listIterator() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public ListIterator<T> listIterator(int index) {
@@ -223,7 +234,7 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public List<T> subList(int fromIndex, int toIndex) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     private void swap(Box<T> first, Box<T> second) {

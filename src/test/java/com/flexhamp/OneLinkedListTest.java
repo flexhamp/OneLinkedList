@@ -281,4 +281,36 @@ public class OneLinkedListTest {
         //Ожидаем ArrayStoreException
         integerArray = list.toArray(integerArray);
     }
+
+    @Test
+    public void testRemoveCurrent() throws Exception {
+        List<String> list = new OneLinkedList<>();
+
+        for (int i = 0; i < 5; i++) {
+            list.add("a" + i);
+        }
+
+        for (String s: list) {
+            System.out.println(s);
+        }
+
+        Iterator iterator = list.iterator();
+        System.out.println("-------------------");
+
+        int i = 0;
+        iterator.next();
+        iterator.remove();
+        iterator.next();
+        iterator.next();
+        iterator.remove();
+        iterator.next();
+        iterator.remove();
+        iterator.next();
+        iterator.remove();
+
+
+        for (String s: list) {
+            System.out.println(s);
+        }
+    }
 }

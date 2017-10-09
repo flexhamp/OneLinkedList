@@ -1,5 +1,7 @@
 package com.flexhamp;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.BEncoderStream;
+
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -40,6 +42,7 @@ public class OneLinkedList<T> implements List<T> {
     public Iterator<T> iterator() {
         return new Iterator() {
             private Box<T> current = null;
+            private Box<T> beforeCurrent = null;
 
             public boolean hasNext() {
                 if (current == null) {
@@ -53,6 +56,7 @@ public class OneLinkedList<T> implements List<T> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
+                beforeCurrent = current;
                 if (current == null) {
                     return (current = head).data;
                 } else {
@@ -61,7 +65,17 @@ public class OneLinkedList<T> implements List<T> {
             }
 
             public void remove() {
-                throw new UnsupportedOperationException();
+                if (current == null || current == beforeCurrent) {
+                    throw new IllegalStateException();
+                } else {
+                    if (beforeCurrent == null) {
+                        head = current.next;
+                        current = beforeCurrent;
+                    } else {
+                        beforeCurrent.next = current.next;
+                        current = beforeCurrent;
+                    }
+                }
             }
         };
     }
@@ -252,7 +266,7 @@ public class OneLinkedList<T> implements List<T> {
         throw new UnsupportedOperationException();
     }
 
-    //Воспомогательный мотод. Возващает контейнет Box<T> по указанному индексу
+    //Воспомогательный метод. Возвращает контейнет Box<T> по указанному индексу
     private Box<T> getBox(int index) {
         if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException();
@@ -277,7 +291,7 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     /**
-     * Данный метод преобразует список N1->N2->N3->...->Nn в Nn->Nn-1->Nn-2->...->N1
+     * Данный метод преобразует список N0->N1->...->Nn в Nn->Nn-1->Nn-2->...->N0
      */
     public void reverse() {
         swap(null, head);

@@ -251,10 +251,34 @@ public class OneLinkedListTest {
             list.add(i);
         }
 
-        Object[] array;
+        Object[] array = list.toArray();
 
-        array = list.toArray();
+        Assert.assertEquals(list.size(), array.length);
 
-        Assert.assertEquals(50, array.length);
+        for (int i = 0; i < list.size(); i++) {
+            Assert.assertEquals(array[i], list.get(i));
+        }
+    }
+
+    @Test(expected = ArrayStoreException.class)
+    public void testToArrayK() throws Exception {
+        List<String> list = new OneLinkedList<>();
+
+        for (int i = 0; i < 50; i++) {
+            list.add("a" + i);
+        }
+
+        String[] stringArray = new String[15];
+
+        stringArray = list.toArray(stringArray);
+        Assert.assertEquals(50, stringArray.length);
+
+        for (int i = 0; i < list.size(); i++) {
+            Assert.assertEquals(stringArray[i], list.get(i));
+        }
+
+        Integer[] integerArray = new Integer[10];
+        //Ожидаем ArrayStoreException
+        integerArray = list.toArray(integerArray);
     }
 }

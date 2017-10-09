@@ -1,12 +1,13 @@
 package com.flexhamp;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
  * One-linked list implementation of the {@code List}
  * elements (including {@code null}).
  * <p>
- * <p>All of the operations perform as could be expected for a one-linked list.
+ * <p>All of the operations perform as could be expected for a one-linked list.</p>
  * <p><strong>Note that this implementation is not synchronized.</strong>
  *
  * @param <T> the type of elements held in this collection
@@ -76,7 +77,16 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public <K> K[] toArray(K[] a) {
-        throw new UnsupportedOperationException();
+        if (a.length < size) {
+            a = (K[])Array.newInstance(a.getClass().getComponentType(), size);
+        }
+        Object[] aArray = a;
+        int i = 0;
+
+        for (T t : this) {
+            aArray[i++] = t;
+        }
+        return a;
     }
 
     public boolean add(T t) {
@@ -279,6 +289,9 @@ public class OneLinkedList<T> implements List<T> {
         second.next = first;
     }
 
+    /**
+     * Данный метод преобразует список N1->N2->N3->...->Nn в Nn->Nn-1->Nn-2->...->N1
+     */
     public void reverse() {
         swap(null, head);
     }

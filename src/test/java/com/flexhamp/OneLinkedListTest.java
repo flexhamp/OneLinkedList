@@ -1,11 +1,11 @@
 package com.flexhamp;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by Admin on 07.10.2017.
@@ -66,6 +66,7 @@ public class OneLinkedListTest {
         list.add("b");
         list.add("c");
         list.add("d");
+        list.add("e");
         list.add("f");
 
         OneLinkedList<String> list1 = new OneLinkedList<>();
@@ -73,6 +74,7 @@ public class OneLinkedListTest {
         list1.add("b");
         list1.add("c");
         list1.add("d");
+        list1.add("e");
         list1.add("f");
 
         list.reverse();
@@ -97,6 +99,8 @@ public class OneLinkedListTest {
         Assert.assertEquals(0, list1.size());
 
         Assert.assertTrue(list1.addAll(list));
+
+        Assert.assertEquals(list.size(), list1.size());
 
         Assert.assertEquals(100, list1.size());
 
@@ -160,8 +164,6 @@ public class OneLinkedListTest {
         Assert.assertEquals(100, list1.size());
 
         list.addAll(3, list1);
-
-        System.out.println(list.size());
 
         Assert.assertEquals(105, list.size());
 

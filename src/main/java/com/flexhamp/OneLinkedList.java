@@ -3,8 +3,14 @@ package com.flexhamp;
 import java.util.*;
 
 /**
- * @author  Kuzmenko Nikita
+ * One-linked list implementation of the {@code List}
+ * elements (including {@code null}).
+ * <p>
+ * <p>All of the operations perform as could be expected for a one-linked list.
+ * <p><strong>Note that this implementation is not synchronized.</strong>
+ *
  * @param <T> the type of elements held in this collection
+ * @author Kuzmenko Nikita
  */
 
 
@@ -63,7 +69,7 @@ public class OneLinkedList<T> implements List<T> {
         Object[] objects = new Object[size];
         int i = 0;
 
-        for (T t: this) {
+        for (T t : this) {
             objects[i++] = t;
         }
         return objects;
@@ -112,7 +118,6 @@ public class OneLinkedList<T> implements List<T> {
         }
         for (T t : c) {
             this.add(t);
-            size++;
         }
         return true;
     }

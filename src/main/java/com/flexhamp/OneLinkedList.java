@@ -78,13 +78,11 @@ public class OneLinkedList<T> implements List<T> {
 
     public <K> K[] toArray(K[] a) {
         if (a.length < size) {
-            a = (K[])Array.newInstance(a.getClass().getComponentType(), size);
+            a = (K[]) Array.newInstance(a.getClass().getComponentType(), size);
         }
-        Object[] aArray = a;
         int i = 0;
-
         for (T t : this) {
-            aArray[i++] = t;
+            a[i++] = (K)t;
         }
         return a;
     }
@@ -133,9 +131,9 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public boolean addAll(int index, Collection<? extends T> c) {
-        if (index < 0 || index > this.size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Box<T> box = getBox(index - 1);
+        Iterator<? extends T> iterator = c.iterator();
+
         if (c.size() == 0) {
             return false;
         }
@@ -143,12 +141,8 @@ public class OneLinkedList<T> implements List<T> {
         Box<T> boxElement;
 
         if (index != 0) {
-            Box<T> box = head;
-            for (int i = 0; i < index - 1; i++) {
-                box = box.next;
-            }
             oldHead = box.next;
-            Iterator<? extends T> iterator = c.iterator();
+
             box.next = boxElement = new Box<>(null, iterator.next());
             size++;
 
@@ -159,7 +153,6 @@ public class OneLinkedList<T> implements List<T> {
             }
             boxElement.next = oldHead;
         } else {
-            Iterator<? extends T> iterator = c.iterator();
             boxElement = new Box<>(null, iterator.next());
             size++;
             head = boxElement;
@@ -187,40 +180,24 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public T get(int index) {
-        if (index < 0 || index >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
-        Box<T> box = head;
-        for (int i = 0; i < index; i++) {
-            box = box.next;
-        }
-        return box.data;
+        return getBox(index).data;
     }
 
     public T set(int index, T element) {
-        if (index < 0 || index >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
-        Box<T> box = head;
+        Box<T> box = getBox(index);
+
         Box<T> tmpBox = new Box<>(null, null);
-        for (int i = 0; i < index; i++) {
-            box = box.next;
-        }
         tmpBox.data = box.data;
         box.data = element;
         return tmpBox.data;
     }
 
     public void add(int index, T element) {
+        Box<T> box = getBox(index - 1);
+
         Box<T> boxElement = new Box<>(null, element);
-        if (index < 0 || index >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+
         if (index != 0) {
-            Box<T> box = head;
-            for (int i = 0; i < index - 1; i++) {
-                box = box.next;
-            }
             boxElement.next = box.next.next;
             box.next = boxElement;
             size++;
@@ -232,10 +209,8 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public T remove(int index) {
-        Box<T> box = head;
-        for (int i = 0; i < index - 1; i++) {
-            box = box.next;
-        }
+        Box<T> box = getBox(index - 1);
+
         Box<T> tmpBox = box.next;
         box.next = box.next.next;
         size--;
@@ -275,6 +250,18 @@ public class OneLinkedList<T> implements List<T> {
 
     public List<T> subList(int fromIndex, int toIndex) {
         throw new UnsupportedOperationException();
+    }
+
+    //Воспомогательный мотод. Возващает контейнет Box<T> по указанному индексу
+    private Box<T> getBox(int index) {
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        Box<T> box = head;
+        for (int i = 0; i < index; i++) {
+            box = box.next;
+        }
+        return box;
     }
 
     private void swap(Box<T> first, Box<T> second) {

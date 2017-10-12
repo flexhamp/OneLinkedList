@@ -445,7 +445,17 @@ public class OneLinkedList<T> implements List<T> {
 
         @Override
         public void clear() {
-            throw new UnsupportedOperationException();
+            Box<T> headBox = this.head;
+            for (int i = 0; i < this.size; i++) {
+                Box<T> nextBox = headBox.next;
+                headBox.next = null;
+                headBox.data = null;
+                headBox = nextBox;
+            }
+
+            OneLinkedList.this.head = headBox;
+            OneLinkedList.this.size -= this.size;
+            OneLinkedList.this.change++;
         }
 
         @Override

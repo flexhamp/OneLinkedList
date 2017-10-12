@@ -325,25 +325,4 @@ public class OneLinkedListTest {
         //Ожидаем ArrayStoreException
         integerArray = list.toArray(integerArray);
     }
-
-    @Test(expected = ConcurrentModificationException.class)
-    public void testSubList() throws Exception {
-        List<String> list = new OneLinkedList<>();
-
-        for (int i = 0; i < 5; i++) {
-            list.add("a" + i);
-        }
-
-        List list1 = list.subList(1,4);
-        Assert.assertEquals(4, list1.size());
-        List list2 = list.subList(3,4);
-        Assert.assertEquals(2, list2.size());
-
-        list.subList(0,0).clear();
-        Assert.assertEquals("a1", list.get(0));
-        Assert.assertEquals(4, list.size());
-
-        //Ожидаем ConcurrentModificationException
-        list1.size();
-     }
 }

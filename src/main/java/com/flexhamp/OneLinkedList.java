@@ -353,16 +353,19 @@ public class OneLinkedList<T> implements List<T> {
             }
         }
 
+        @Override
         public int size() {
             isChange();
             return this.size;
         }
 
+        @Override
         public boolean isEmpty() {
             isChange();
             return this.size == 0;
         }
 
+        @Override
         public Iterator<T> iterator() {
             return new Iterator() {
                 private Box<T> current = null;
@@ -397,21 +400,85 @@ public class OneLinkedList<T> implements List<T> {
             };
         }
 
-        public void clear() {
-            Box<T> headBox = this.head;
-            for (int i = 0; i < this.size; i++) {
-                Box<T> nextBox = headBox.next;
-                headBox.next = null;
-                headBox.data = null;
-                headBox = nextBox;
-            }
+        @Override
+        public Object[] toArray() {
+            Object[] objects = new Object[size];
+            int i = 0;
 
-            OneLinkedList.this.head = headBox;
-            OneLinkedList.this.size -= this.size;
-            OneLinkedList.this.change++;
+            for (T t : this) {
+                objects[i++] = t;
+            }
+            return objects;
         }
 
-        private void isChange(){
+        @Override
+        public <K> K[] toArray(K[] a) {
+            if (a.length < size) {
+                a = (K[]) Array.newInstance(a.getClass().getComponentType(), size);
+            }
+            int i = 0;
+            for (T t : this) {
+                a[i++] = (K) t;
+            }
+            return a;
+        }
+
+        @Override
+        public boolean add(T t) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean addAll(Collection<? extends T> c) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean addAll(int index, Collection<? extends T> c) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void clear() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public T get(int index) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public T set(int index, T element) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void add(int index, T element) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public T remove(int index) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public int indexOf(Object o) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public int lastIndexOf(Object o) {
+            throw new UnsupportedOperationException();
+        }
+
+        private void isChange() {
             if (this.change != OneLinkedList.this.change) {
                 throw new ConcurrentModificationException();
             }

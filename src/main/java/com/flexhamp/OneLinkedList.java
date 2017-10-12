@@ -97,7 +97,7 @@ public class OneLinkedList<T> implements List<T> {
         }
         int i = 0;
         for (T t : this) {
-            a[i++] = (K)t;
+            a[i++] = (K) t;
         }
         return a;
     }
@@ -330,7 +330,7 @@ public class OneLinkedList<T> implements List<T> {
         private Box<T> tail;
 
         public OneLinkedSubList(int fromIndex, int toIndex) {
-            this.size = toIndex - fromIndex;
+            this.size = toIndex - fromIndex + 1;
             this.head = OneLinkedList.this.getBox(fromIndex);
         }
 
@@ -346,12 +346,13 @@ public class OneLinkedList<T> implements List<T> {
             return new Iterator() {
                 private Box<T> current = null;
                 private Box<T> beforeCurrent = null;
+                private int sizeIterator = size;
 
                 public boolean hasNext() {
                     if (current == null) {
-                        return head != null;
+                        return head != null && sizeIterator != 0;
                     } else {
-                        return current.next != null;
+                        return current.next != null && sizeIterator != 0;
                     }
                 }
 
@@ -359,6 +360,7 @@ public class OneLinkedList<T> implements List<T> {
                     if (!hasNext()) {
                         throw new NoSuchElementException();
                     }
+                    sizeIterator--;
                     beforeCurrent = current;
                     if (current == null) {
                         return (current = head).data;

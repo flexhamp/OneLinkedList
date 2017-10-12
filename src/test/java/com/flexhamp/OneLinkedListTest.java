@@ -336,9 +336,8 @@ public class OneLinkedListTest {
             list.add("a" + i);
         }
 
-        List list1 = list.subList(1, 10);
-        System.out.println(list1.size());
-        for (Object s: list1) {
+        System.out.println(list.subList(1, 10).size());
+        for (Object s : list.subList(1, 10)) {
             System.out.println(s);
         }
 

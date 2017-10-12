@@ -75,6 +75,7 @@ public class OneLinkedList<T> implements List<T> {
                         beforeCurrent.next = current.next;
                         current = beforeCurrent;
                     }
+                    size--;
                 }
             }
         };
@@ -156,7 +157,6 @@ public class OneLinkedList<T> implements List<T> {
 
         if (index != 0) {
             oldHead = box.next;
-
             box.next = boxElement = new Box<>(null, iterator.next());
             size++;
 
@@ -169,6 +169,7 @@ public class OneLinkedList<T> implements List<T> {
         } else {
             boxElement = new Box<>(null, iterator.next());
             size++;
+
             head = boxElement;
             while (iterator.hasNext()) {
                 boxElement.next = new Box<>(null, iterator.next());
@@ -189,6 +190,14 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public void clear() {
+        Box<T> tBox = head;
+        while (tBox != null) {
+            Box<T> nextBox = tBox.next;
+            tBox.next = null;
+            tBox.data = null;
+            tBox = nextBox;
+        }
+
         head = tail = null;
         size = 0;
     }

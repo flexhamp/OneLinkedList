@@ -46,6 +46,32 @@ public class OneLinkedListTest {
         iterator.next();
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void testIteratorRemove() throws Exception {
+        List<String> list = new OneLinkedList<>();
+
+        for (int i = 0; i < 5; i++) {
+            list.add("a" + i);
+        }
+        int sizeList = list.size();
+        Iterator iterator = list.iterator();
+
+        iterator.next();
+        iterator.remove();
+
+        Assert.assertEquals("a1", list.get(0));
+
+        iterator.next();
+        iterator.next();
+        iterator.remove();
+
+        Assert.assertEquals("a3", list.get(1));
+        Assert.assertEquals(sizeList - 2, list.size());
+
+        //Ожидаем исключение IllegalStateException
+        iterator.remove();
+    }
+
     @Test(expected = IndexOutOfBoundsException.class)
     public void testGet() throws Exception {
         List<Integer> list = new OneLinkedList<>();
@@ -126,7 +152,26 @@ public class OneLinkedListTest {
 
         Assert.assertTrue(list.isEmpty());
 
-        list.get(0);
+        list.get(5);
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testClearThenNoSuchElementException() throws Exception {
+        List<Integer> list = new OneLinkedList<>();
+        for (int i = 0; i < 100; i++) {
+            list.add(i);
+        }
+
+        Iterator<Integer> iterator = list.iterator();
+        iterator.next();
+        iterator.next();
+
+        list.clear();
+
+        Assert.assertTrue(!iterator.hasNext());
+
+        //Ожинаем NoSuchElementException
+        iterator.next();
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
@@ -280,37 +325,5 @@ public class OneLinkedListTest {
         Integer[] integerArray = new Integer[10];
         //Ожидаем ArrayStoreException
         integerArray = list.toArray(integerArray);
-    }
-
-    @Test
-    public void testRemoveCurrent() throws Exception {
-        List<String> list = new OneLinkedList<>();
-
-        for (int i = 0; i < 5; i++) {
-            list.add("a" + i);
-        }
-
-        for (String s: list) {
-            System.out.println(s);
-        }
-
-        Iterator iterator = list.iterator();
-        System.out.println("-------------------");
-
-        int i = 0;
-        iterator.next();
-        iterator.remove();
-        iterator.next();
-        iterator.next();
-        iterator.remove();
-        iterator.next();
-        iterator.remove();
-        iterator.next();
-        iterator.remove();
-
-
-        for (String s: list) {
-            System.out.println(s);
-        }
     }
 }

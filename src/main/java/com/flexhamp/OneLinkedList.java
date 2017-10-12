@@ -21,6 +21,7 @@ public class OneLinkedList<T> implements List<T> {
     private int size;
     private Box<T> head;
     private Box<T> tail;
+    private int change = 0;
 
     public int size() {
         return size;
@@ -113,6 +114,7 @@ public class OneLinkedList<T> implements List<T> {
             tail = tail.next = tBox;
         }
         size++;
+        change++;
         return true;
     }
 
@@ -123,6 +125,7 @@ public class OneLinkedList<T> implements List<T> {
             if (o.equals(findBox.data)) {
                 tmpBox.next = findBox.next;
                 size--;
+                change++;
                 return true;
             }
             tmpBox = findBox;
@@ -142,6 +145,7 @@ public class OneLinkedList<T> implements List<T> {
         for (T t : c) {
             this.add(t);
         }
+        change++;
         return true;
     }
 
@@ -178,6 +182,7 @@ public class OneLinkedList<T> implements List<T> {
             }
             boxElement.next = oldHead;
         }
+        change++;
         return true;
     }
 
@@ -200,6 +205,7 @@ public class OneLinkedList<T> implements List<T> {
 
         head = tail = null;
         size = 0;
+        change++;
     }
 
     public T get(int index) {
@@ -212,6 +218,7 @@ public class OneLinkedList<T> implements List<T> {
         Box<T> tmpBox = new Box<>(null, null);
         tmpBox.data = box.data;
         box.data = element;
+        change++;
         return tmpBox.data;
     }
 
@@ -229,6 +236,7 @@ public class OneLinkedList<T> implements List<T> {
             head = boxElement;
             size++;
         }
+        change++;
     }
 
     public T remove(int index) {
@@ -237,6 +245,7 @@ public class OneLinkedList<T> implements List<T> {
         Box<T> tmpBox = box.next;
         box.next = box.next.next;
         size--;
+        change++;
         return tmpBox.data;
     }
 
@@ -327,18 +336,30 @@ public class OneLinkedList<T> implements List<T> {
     private class OneLinkedSubList extends OneLinkedList<T> {
         private int size;
         private Box<T> head;
-        private Box<T> tail;
+        private Box<T> beforeHead;
+        private int change = 0;
 
         public OneLinkedSubList(int fromIndex, int toIndex) {
+            if (fromIndex < 0 || toIndex - fromIndex < 0) {
+                throw new IndexOutOfBoundsException();
+            }
+            this.change = OneLinkedList.this.change;
             this.size = toIndex - fromIndex + 1;
-            this.head = OneLinkedList.this.getBox(fromIndex);
+            if (fromIndex > 0) {
+                this.beforeHead = OneLinkedList.this.getBox(fromIndex - 1);
+                this.head = this.beforeHead.next;
+            } else {
+                this.head = this.beforeHead = OneLinkedList.this.head;
+            }
         }
 
         public int size() {
+            isChange();
             return this.size;
         }
 
         public boolean isEmpty() {
+            isChange();
             return this.size == 0;
         }
 
@@ -346,9 +367,10 @@ public class OneLinkedList<T> implements List<T> {
             return new Iterator() {
                 private Box<T> current = null;
                 private Box<T> beforeCurrent = null;
-                private int sizeIterator = size;
+                private int sizeIterator = OneLinkedSubList.this.size;
 
                 public boolean hasNext() {
+                    isChange();
                     if (current == null) {
                         return head != null && sizeIterator != 0;
                     } else {
@@ -373,6 +395,26 @@ public class OneLinkedList<T> implements List<T> {
                     throw new UnsupportedOperationException();
                 }
             };
+        }
+
+        public void clear() {
+            Box<T> headBox = this.head;
+            for (int i = 0; i < this.size; i++) {
+                Box<T> nextBox = headBox.next;
+                headBox.next = null;
+                headBox.data = null;
+                headBox = nextBox;
+            }
+
+            OneLinkedList.this.head = headBox;
+            OneLinkedList.this.size -= this.size;
+            OneLinkedList.this.change++;
+        }
+
+        private void isChange(){
+            if (this.change != OneLinkedList.this.change) {
+                throw new ConcurrentModificationException();
+            }
         }
     }
 }

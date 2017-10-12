@@ -3,9 +3,7 @@ package com.flexhamp;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * Created by Admin on 07.10.2017.
@@ -328,18 +326,24 @@ public class OneLinkedListTest {
         integerArray = list.toArray(integerArray);
     }
 
-    @Test
+    @Test(expected = ConcurrentModificationException.class)
     public void testSubList() throws Exception {
         List<String> list = new OneLinkedList<>();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 5; i++) {
             list.add("a" + i);
         }
 
-        System.out.println(list.subList(1, 10).size());
-        for (Object s : list.subList(1, 10)) {
-            System.out.println(s);
-        }
+        List list1 = list.subList(1,4);
+        Assert.assertEquals(4, list1.size());
+        List list2 = list.subList(3,4);
+        Assert.assertEquals(2, list2.size());
 
-    }
+        list.subList(0,0).clear();
+        Assert.assertEquals("a1", list.get(0));
+        Assert.assertEquals(4, list.size());
+
+        //Ожидаем ConcurrentModificationException
+        list1.size();
+     }
 }

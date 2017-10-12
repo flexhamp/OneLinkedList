@@ -95,6 +95,7 @@ public class OneLinkedListTest {
         list.add("e");
         list.add("f");
 
+        //Эталон
         OneLinkedList<String> list1 = new OneLinkedList<>();
         list1.add("a");
         list1.add("b");
@@ -151,7 +152,7 @@ public class OneLinkedListTest {
         Assert.assertEquals(0, list.size());
 
         Assert.assertTrue(list.isEmpty());
-
+        //Ожидаем IndexOutOfBoundsException
         list.get(5);
     }
 
@@ -325,5 +326,21 @@ public class OneLinkedListTest {
         Integer[] integerArray = new Integer[10];
         //Ожидаем ArrayStoreException
         integerArray = list.toArray(integerArray);
+    }
+
+    @Test
+    public void testSubList() throws Exception {
+        List<String> list = new OneLinkedList<>();
+
+        for (int i = 0; i < 50; i++) {
+            list.add("a" + i);
+        }
+
+        List list1 = list.subList(1, 10);
+        System.out.println(list1.size());
+        for (Object s: list1) {
+            System.out.println(s);
+        }
+
     }
 }

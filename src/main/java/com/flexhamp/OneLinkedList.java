@@ -272,7 +272,7 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public List<T> subList(int fromIndex, int toIndex) {
-        throw new UnsupportedOperationException();
+        return new OneLinkedSubList(fromIndex, toIndex);
     }
 
     //Воспомогательный метод. Возвращает контейнет Box<T> по указанному индексу
@@ -321,6 +321,56 @@ public class OneLinkedList<T> implements List<T> {
                     "next=" + next +
                     ", data=" + data +
                     '}';
+        }
+    }
+
+    private class OneLinkedSubList extends OneLinkedList<T> {
+        private int size;
+        private Box<T> head;
+        private Box<T> tail;
+
+        public OneLinkedSubList(int fromIndex, int toIndex) {
+            this.size = toIndex - fromIndex;
+            this.head = OneLinkedList.this.getBox(fromIndex);
+        }
+
+        public int size() {
+            return this.size;
+        }
+
+        public boolean isEmpty() {
+            return this.size == 0;
+        }
+
+        public Iterator<T> iterator() {
+            return new Iterator() {
+                private Box<T> current = null;
+                private Box<T> beforeCurrent = null;
+
+                public boolean hasNext() {
+                    if (current == null) {
+                        return head != null;
+                    } else {
+                        return current.next != null;
+                    }
+                }
+
+                public T next() {
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
+                    }
+                    beforeCurrent = current;
+                    if (current == null) {
+                        return (current = head).data;
+                    } else {
+                        return (current = current.next).data;
+                    }
+                }
+
+                public void remove() {
+                    throw new UnsupportedOperationException();
+                }
+            };
         }
     }
 }

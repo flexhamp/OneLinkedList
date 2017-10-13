@@ -452,8 +452,13 @@ public class OneLinkedList<T> implements List<T> {
                 headBox.data = null;
                 headBox = nextBox;
             }
+            if (this.beforeHead.next != null) {
+                this.beforeHead.next = headBox;
+            } else {
+                OneLinkedList.this.head = headBox;
+            }
 
-            OneLinkedList.this.head = headBox;
+
             OneLinkedList.this.size -= this.size;
             OneLinkedList.this.change++;
         }

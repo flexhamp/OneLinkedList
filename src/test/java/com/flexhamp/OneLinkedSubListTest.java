@@ -87,8 +87,20 @@ public class OneLinkedSubListTest {
     @Test
     public void testClear() throws Exception {
         list.subList(0, 9).clear();
+
         Assert.assertEquals(10, list.size());
+
         Assert.assertEquals("a10", list.get(0));
+
         Assert.assertEquals("a19", list.get(9));
+
+        list.subList(1, 5).clear();
+        Assert.assertEquals(5, list.size());
+
+        list.subList(2, 4).clear();
+        Assert.assertEquals(2, list.size());
+
+        list.subList(0,1).clear();
+        Assert.assertTrue(list.isEmpty());
     }
 }

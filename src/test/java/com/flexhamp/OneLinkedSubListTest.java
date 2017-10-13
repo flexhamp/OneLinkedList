@@ -2,7 +2,6 @@ package com.flexhamp;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
@@ -100,7 +99,7 @@ public class OneLinkedSubListTest {
         list.subList(2, 4).clear();
         Assert.assertEquals(2, list.size());
 
-        list.subList(0,1).clear();
+        list.subList(0, 1).clear();
         Assert.assertTrue(list.isEmpty());
     }
 }

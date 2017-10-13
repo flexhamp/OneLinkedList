@@ -135,7 +135,25 @@ public class OneLinkedList<T> implements List<T> {
     }
 
     public boolean containsAll(Collection<?> c) {
-        throw new UnsupportedOperationException();
+        if (c.size() > size) {
+            return false;
+        }
+
+        boolean isCintains = false;
+
+        for (Object o: c) {
+            isCintains = false;
+            for (Object find: this){
+                if (o.equals(find)) {
+                    isCintains = true;
+                    break;
+                }
+            }
+            if (!isCintains) {
+                break;
+            }
+        }
+        return isCintains;
     }
 
     public boolean addAll(Collection<? extends T> c) {
@@ -402,6 +420,7 @@ public class OneLinkedList<T> implements List<T> {
 
         @Override
         public Object[] toArray() {
+            isChange();
             Object[] objects = new Object[size];
             int i = 0;
 
@@ -413,6 +432,7 @@ public class OneLinkedList<T> implements List<T> {
 
         @Override
         public <K> K[] toArray(K[] a) {
+            isChange();
             if (a.length < size) {
                 a = (K[]) Array.newInstance(a.getClass().getComponentType(), size);
             }
@@ -434,6 +454,11 @@ public class OneLinkedList<T> implements List<T> {
         }
 
         @Override
+        public boolean containsAll(Collection<?> c) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public boolean addAll(Collection<? extends T> c) {
             throw new UnsupportedOperationException();
         }
@@ -445,6 +470,7 @@ public class OneLinkedList<T> implements List<T> {
 
         @Override
         public void clear() {
+            isChange();
             Box<T> headBox = this.head;
             for (int i = 0; i < this.size; i++) {
                 Box<T> nextBox = headBox.next;
@@ -457,8 +483,6 @@ public class OneLinkedList<T> implements List<T> {
             } else {
                 OneLinkedList.this.head = headBox;
             }
-
-
             OneLinkedList.this.size -= this.size;
             OneLinkedList.this.change++;
         }

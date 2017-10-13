@@ -259,6 +259,23 @@ public class OneLinkedListTest {
     }
 
     @Test
+    public void testContainsAll() throws Exception {
+        List<String> list = new OneLinkedList<>();
+        for (int i = 0; i < 20; i++) {
+            list.add("a" + i);
+        }
+
+        List<String> list1 = new OneLinkedList<>();
+        for (int i = 0; i < 10; i++) {
+            list1.add("a" + i);
+        }
+
+        Assert.assertTrue(list.containsAll(list1));
+        list1.add("b0");
+        Assert.assertTrue(!list.containsAll(list1));
+    }
+
+    @Test
     public void testSet() throws Exception {
         List<String> list = new OneLinkedList<>();
         list.add("a");

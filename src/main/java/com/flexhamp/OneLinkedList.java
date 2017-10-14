@@ -141,9 +141,9 @@ public class OneLinkedList<T> implements List<T> {
 
         boolean isCintains = false;
 
-        for (Object o: c) {
+        for (Object o : c) {
             isCintains = false;
-            for (Object find: this){
+            for (Object find : this) {
                 if (o.equals(find)) {
                     isCintains = true;
                     break;
@@ -355,14 +355,23 @@ public class OneLinkedList<T> implements List<T> {
         private int size;
         private Box<T> head;
         private Box<T> beforeHead;
+
+        private int fromIndex = 0;
+        private int toIndex = 0;
+
         private int change = 0;
 
         public OneLinkedSubList(int fromIndex, int toIndex) {
             if (fromIndex < 0 || toIndex - fromIndex < 0) {
                 throw new IndexOutOfBoundsException();
             }
+
+            this.fromIndex = fromIndex;
+            this.toIndex = toIndex;
+
             this.change = OneLinkedList.this.change;
-            this.size = toIndex - fromIndex + 1;
+            this.size = toIndex - fromIndex;
+
             if (fromIndex > 0) {
                 this.beforeHead = OneLinkedList.this.getBox(fromIndex - 1);
                 this.head = this.beforeHead.next;
@@ -515,6 +524,14 @@ public class OneLinkedList<T> implements List<T> {
         @Override
         public int lastIndexOf(Object o) {
             throw new UnsupportedOperationException();
+        }
+
+        public List<T> subList(int fromIndex, int toIndex) {
+            if (fromIndex < 0 || toIndex - fromIndex > this.size) {
+                throw new IndexOutOfBoundsException();
+            }
+            System.out.println("Новый саблист");
+            return OneLinkedList.this.subList(this.fromIndex + fromIndex, toIndex + fromIndex);
         }
 
         private void isChange() {

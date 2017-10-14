@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,11 +26,11 @@ public class OneLinkedSubListTest {
     public void testContains() throws Exception {
         Assert.assertTrue(list.subList(1, 9).contains("a1"));
 
-        Assert.assertTrue(list.subList(1, 9).contains("a9"));
+        Assert.assertTrue(list.subList(1, 9).contains("a8"));
 
         Assert.assertTrue(!list.subList(1, 9).contains("a0"));
 
-        Assert.assertTrue(!list.subList(1, 9).contains("10"));
+        Assert.assertTrue(!list.subList(1, 9).contains("a9"));
     }
 
     @Test(expected = ConcurrentModificationException.class)
@@ -43,7 +44,7 @@ public class OneLinkedSubListTest {
             Assert.assertEquals(iterator.next(), iteratorList.next());
         }
 
-        Assert.assertEquals(10, list1.size());
+        Assert.assertEquals(9, list1.size());
 
         list.add("b1");
         //Ожидаем ConcurrentModificationException
@@ -56,7 +57,7 @@ public class OneLinkedSubListTest {
         List list1 = list.subList(0, 9);
         Object[] array = list.subList(0, 9).toArray();
 
-        Assert.assertEquals(10, array.length);
+        Assert.assertEquals(9, array.length);
         Assert.assertEquals(array.length, list1.size());
 
         int i = 0;
@@ -73,7 +74,7 @@ public class OneLinkedSubListTest {
         String[] stringArray = new String[15];
 
         stringArray = (String[]) list.subList(0, 17).toArray(stringArray);
-        Assert.assertEquals(18, stringArray.length);
+        Assert.assertEquals(17, stringArray.length);
 
         Assert.assertEquals(stringArray.length, list1.size());
         int i = 0;
@@ -87,19 +88,42 @@ public class OneLinkedSubListTest {
     public void testClear() throws Exception {
         list.subList(0, 9).clear();
 
-        Assert.assertEquals(10, list.size());
+        Assert.assertEquals(11, list.size());
 
-        Assert.assertEquals("a10", list.get(0));
+        Assert.assertEquals("a9", list.get(0));
 
-        Assert.assertEquals("a19", list.get(9));
+        Assert.assertEquals("a19", list.get(10));
 
         list.subList(1, 5).clear();
-        Assert.assertEquals(5, list.size());
+        Assert.assertEquals(7, list.size());
 
         list.subList(2, 4).clear();
-        Assert.assertEquals(2, list.size());
+        Assert.assertEquals(5, list.size());
 
-        list.subList(0, 1).clear();
+        list.subList(0, 5).clear();
         Assert.assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void test() throws Exception {
+        List list1 = new LinkedList();
+        for (int i = 0; i < 20; i++) {
+            list1.add("a" + i);
+        }
+
+        List list2 = list.subList(1, 10).subList(1, 7).subList(0, 3);
+        System.out.println(list2.size());
+
+        for (Object o : list2) {
+            System.out.println(o);
+        }
+
+        List list3 = list1.subList(1, 10).subList(1, 7).subList(0, 1);
+        System.out.println(list3.size());
+
+        for (Object o : list3) {
+            System.out.println(o);
+        }
+
     }
 }

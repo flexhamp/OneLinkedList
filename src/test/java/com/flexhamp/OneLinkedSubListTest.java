@@ -104,26 +104,18 @@ public class OneLinkedSubListTest {
         Assert.assertTrue(list.isEmpty());
     }
 
-    @Test
-    public void test() throws Exception {
-        List list1 = new LinkedList();
-        for (int i = 0; i < 20; i++) {
-            list1.add("a" + i);
-        }
+    @Test(expected = ConcurrentModificationException.class)
+    public void testSubList() throws Exception {
 
-        List list2 = list.subList(1, 10).subList(1, 7).subList(0, 3);
-        System.out.println(list2.size());
+        List list1 = list.subList(1, 10).subList(1, 7).subList(0, 6).subList(1, 3).subList(0, 1);
+        Assert.assertEquals(1, list1.size());
+        Assert.assertEquals("a3", list1.get(0));
 
-        for (Object o : list2) {
-            System.out.println(o);
-        }
+        list1.clear();
 
-        List list3 = list1.subList(1, 10).subList(1, 7).subList(0, 1);
-        System.out.println(list3.size());
+        Assert.assertEquals("a4", list.get(3));
 
-        for (Object o : list3) {
-            System.out.println(o);
-        }
-
+        //Ожидаем ConcurrentModificationException
+        list1.size();
     }
 }

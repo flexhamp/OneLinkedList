@@ -357,7 +357,6 @@ public class OneLinkedList<T> implements List<T> {
         private Box<T> beforeHead;
 
         private int fromIndex = 0;
-        private int toIndex = 0;
 
         private int change = 0;
 
@@ -365,11 +364,10 @@ public class OneLinkedList<T> implements List<T> {
             if (fromIndex < 0 || toIndex - fromIndex < 0) {
                 throw new IndexOutOfBoundsException();
             }
-
             this.fromIndex = fromIndex;
-            this.toIndex = toIndex;
 
             this.change = OneLinkedList.this.change;
+
             this.size = toIndex - fromIndex;
 
             if (fromIndex > 0) {
@@ -498,7 +496,7 @@ public class OneLinkedList<T> implements List<T> {
 
         @Override
         public T get(int index) {
-            throw new UnsupportedOperationException();
+            return OneLinkedList.this.get(this.fromIndex + index);
         }
 
         @Override
@@ -530,8 +528,7 @@ public class OneLinkedList<T> implements List<T> {
             if (fromIndex < 0 || toIndex - fromIndex > this.size) {
                 throw new IndexOutOfBoundsException();
             }
-            System.out.println("Новый саблист");
-            return OneLinkedList.this.subList(this.fromIndex + fromIndex, toIndex + fromIndex);
+            return OneLinkedList.this.subList(this.fromIndex + fromIndex, this.fromIndex + toIndex);
         }
 
         private void isChange() {

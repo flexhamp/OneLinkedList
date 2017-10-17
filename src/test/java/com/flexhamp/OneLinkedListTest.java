@@ -1,6 +1,7 @@
 package com.flexhamp;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.*;
@@ -348,10 +349,13 @@ public class OneLinkedListTest {
         integerArray = list.toArray(integerArray);
     }
 
+    /**
+     * -Xms512m -Xmx1024m -XX:-UseGCOverheadLimit
+     */
     @Test
     public void testLoadOneLinkedList() throws Exception {
         OneLinkedList<Integer> list = new OneLinkedList<>();
-        for (int i = 0; i < 20537733; i++) {
+        for (int i = 0; i < 200537733; i++) {
             list.add(i);
         }
         list.reverse();

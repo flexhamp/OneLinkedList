@@ -333,7 +333,6 @@ public class OneLinkedList<T> implements List<T> {
     }
 
 
-
     /**
      * Данный метод преобразует список N0->N1->...->Nn в Nn->Nn-1->Nn-2->...->N0
      */
@@ -520,7 +519,7 @@ public class OneLinkedList<T> implements List<T> {
 
         @Override
         public T get(int index) {
-            throw new UnsupportedOperationException();
+            return getBox(index).data;
         }
 
         @Override
@@ -553,6 +552,20 @@ public class OneLinkedList<T> implements List<T> {
                 throw new IndexOutOfBoundsException();
             }
             return OneLinkedList.this.subList(this.fromIndex + fromIndex, this.fromIndex + toIndex);
+        }
+
+        private Box<T> getBox(int index) {
+            if (this.change != OneLinkedList.this.change) {
+                throw new ConcurrentModificationException();
+            }
+            if (index < 0 || index >= size) {
+                throw new IndexOutOfBoundsException();
+            }
+            Box<T> box = this.head;
+            for (int i = 0; i < index; i++) {
+                box = box.next;
+            }
+            return box;
         }
 
         private void isChange() {

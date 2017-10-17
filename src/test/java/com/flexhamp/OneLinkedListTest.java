@@ -104,11 +104,16 @@ public class OneLinkedListTest {
 
         list.reverse();
 
+        int a = 0;
+        for (Object o : list) {
+            a++;
+        }
+
+        Assert.assertEquals(a, list1.size());
+
         for (int i = 0; i < list.size(); i++) {
             Assert.assertEquals(list1.get(i), list.get(list.size() - i - 1));
         }
-
-        Assert.assertEquals(list1.size(), list.size());
     }
 
     @Test
@@ -341,5 +346,14 @@ public class OneLinkedListTest {
         Integer[] integerArray = new Integer[10];
         //Ожидаем ArrayStoreException
         integerArray = list.toArray(integerArray);
+    }
+
+    @Test
+    public void testLoadOneLinkedList() throws Exception {
+        OneLinkedList<Integer> list = new OneLinkedList<>();
+        for (int i = 0; i < 20537733; i++) {
+            list.add(i);
+        }
+        list.reverse();
     }
 }

@@ -304,7 +304,7 @@ public class OneLinkedList<T> implements List<T> {
 
     //Воспомогательный метод. Возвращает контейнет Box<T> по указанному индексу
     private Box<T> getBox(int index) {
-        if (index < 0 || index >= size()) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
         Box<T> box = head;
@@ -314,6 +314,12 @@ public class OneLinkedList<T> implements List<T> {
         return box;
     }
 
+    /*
+    *Данная реализация оказалась ограничена размером стека вызовов и равна примерно
+    *Windows  - 1024kb
+    *Linux    - 8172kb
+    * SunOS   - 8172kb
+    */
     private void swap(Box<T> first, Box<T> second) {
         if (first == null) {
             tail = second;
@@ -326,11 +332,29 @@ public class OneLinkedList<T> implements List<T> {
         second.next = first;
     }
 
+
+
     /**
      * Данный метод преобразует список N0->N1->...->Nn в Nn->Nn-1->Nn-2->...->N0
      */
     public void reverse() {
-        swap(null, head);
+        //swap(null, head);
+        if (head == null) {
+            return;
+        }
+        Box<T> currentBox = head;
+        Box<T> previousBox = tail.next;
+        Box<T> nextBox;
+        while (currentBox != null) {
+            nextBox = currentBox.next;
+
+            currentBox.next = previousBox;
+
+            previousBox = currentBox;
+
+            currentBox = nextBox;
+        }
+        head = previousBox;
     }
 
     private static class Box<T> {
@@ -496,7 +520,7 @@ public class OneLinkedList<T> implements List<T> {
 
         @Override
         public T get(int index) {
-            return OneLinkedList.this.get(this.fromIndex + index);
+            throw new UnsupportedOperationException();
         }
 
         @Override
